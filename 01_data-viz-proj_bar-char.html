@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <script>
+        //fetch data
+        const req = new XMLHttpRequest();
+        const url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+        let json = "";
+        
+        function loadDoc(){
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    json = JSON.parse(this.responseText);
+                }
+            }
+            req.open("GET", url, true);
+            req.send();
+            
+            console.log(json);
+        }
+        
+        //when page loads, call for data and display
+        
+        
+        //build svg
+        
+        const h = 400;
+        const w = 500;
+
+        const svg = d3.select("body")
+        .append("svg")
+        .attr("height", h)
+        .attr("width", w);
+
+        svg.selectAll("rect")
+            .data(json.data)
+
+
+    </script>
+    
+    
+    
+    <div id="demo">
+        <h2>Let AJAX change this text</h2>
+        <button type="button" onclick="loadDoc()">Change Content</button>
+    </div>
+    
+</body>
+</html>
