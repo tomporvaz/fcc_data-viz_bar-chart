@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <title>Document</title>
+    <title>US Gross Domestic Product</title>
 </head>
 <body>
     
@@ -14,7 +14,7 @@
         const req = new XMLHttpRequest();
         const url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
         let json = {};
-              
+        
         function loadChart(){
             req.onload = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -23,18 +23,18 @@
                     
                     const w = 900;
                     const h = 400;
-                    const padding = 30;
-
+                    const padding = 50;
+                    
                     //scale for x and y axis
                     const xScale = d3.scaleLinear()
-                        .domain([d3.min(json.data, (d) => d[0]), d3.max(json.data, d => d[0])])
-                        .range([padding, w - padding]);
-
-                    const yScale = d3.scaleLinear()
-                        .domain([0, d3.max(json.data, d => d[1])])
-                        .range([h - padding, padding]);
+                    .domain([0, json.data.length])
+                    .range([padding, w - padding]);
                     
-                    const svg = d3.selectAll("body")
+                    const yScale = d3.scaleLinear()
+                        .domain([d3.max(json.data, d => d[1]), 0])
+                        .range([0, h - padding]);
+                    
+                    const svg = d3.selectAll("figure")
                     .append("svg")
                     .attr("height", h)
                     .attr("width", w);
@@ -43,13 +43,32 @@
                     .data(json.data)
                     .enter()
                     .append("rect")
-                    .attr("x", (d, i) => i * 3)
-                    .attr("y", (d, i) => yScale(d[1]))
+                    .attr("x", (d, i) => xScale(i))
+                    .attr("y", (d, i) => (yScale(d[1])))
                     .attr("width", 2)
-                    .attr("height", (d, i) => (d[1]));
+                    .attr("height", (d, i) => (h - padding - (yScale(d[1]))))
+                    .attr("class", "bar");
                     
-                    console.log(xScale());
-                    console.log("json.data[0]: " + json.data[0]);
+                    //x-axis
+                    const xAxis = d3.axisBottom(xScale);
+                    
+                    svg.append("g")
+                    .attr("transform",
+                    "translate(0, " + (h - padding) + ")")
+                    .call(xAxis)
+                    .attr("id", "x-axis");
+                    
+                    //y-axis
+                    const yAxis = d3.axisLeft(yScale);
+                    
+                    svg.append("g")
+                    .attr("transform",
+                    "translate(" + padding + ", 0)")
+                    .call(yAxis)
+                    .attr("id", "y-axis");
+                    
+                    console.log(xScale(3));
+                    console.log("json.data.length: " + json.data.length);
                 }
             }
             req.open("GET", url, true);
@@ -62,13 +81,13 @@
         //build svg
         
         //test xScale
-
+        
         
     </script>
-     
+    
     <h1 id="title">US Gross Domestic Product (quaterly)</h1>
     <figure></figure>
-
+    
     <script>document.addEventListener('DOMContentLoaded', loadChart());</script>
     <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 </body>
