@@ -19,3 +19,15 @@ figure{
     padding: auto;
     
 }
+
+#tooltip {
+    position: absolute;
+    text-align: center;
+    width: 80px;
+    height: 20px;
+    padding: 8px;
+    margin-top: -20px;
+    font: 10px sans-serif;
+    background: #ddd;
+    pointer-events: none;
+  }

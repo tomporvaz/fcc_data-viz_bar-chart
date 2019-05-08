@@ -33,8 +33,8 @@
                     .range([padding, w - padding]);
                     
                     const yScale = d3.scaleLinear()
-                        .domain([d3.max(json.data, d => d[1]), 0])
-                        .range([padding, h - padding]);
+                    .domain([d3.max(json.data, d => d[1]), 0])
+                    .range([padding, h - padding]);
                     
                     const svg = d3.selectAll("figure")
                     .append("svg")
@@ -52,12 +52,40 @@
                     .attr("class", "bar")
                     .attr("data-date", (d) => d[0])
                     .attr("data-gdp", (d) => d[1])
+                    .on("mouseover", showTip)
+                    .on("mousemove", d => moveTip(d))
+                    .on("mouseout", hideTip);
                     
+                    //tooltip declaration and functions copied and modifired from https://bl.ocks.org/mbostock/1087001
+                    let tooltip = d3.select("body")
+                    .append("div")
+                    .attr("id", "tooltip")
+                    .style("display", "none");
+                    
+                    
+                    function showTip() {
+                        tooltip.style("display", "inline");
+                    }
+                    
+                    function moveTip(data) {
+                        tooltip.text("Date: " + data[0] + "\nGDP: " + data[1])
+                        .attr("data-date", data[0])
+                        .style("left", (d3.event.pageX - 34) + "px")
+                        .style("top", (d3.event.pageY - 12) + "px");
+                    }
+                    
+                    function hideTip() {
+                        tooltip.style("display", "none");
+                    }
+                    
+                    
+                    /*Tool tip by title
                     svg.selectAll("rect")
                     .append("title")
                     .attr("id", "tooltip")
                     .attr("data-date", (d) => d[0])
                     .text(d => "GDP: " + d[1]);
+                    */
                     
                     //x-axis
                     const xAxis = d3.axisBottom(xScale);
@@ -77,8 +105,8 @@
                     .call(yAxis)
                     .attr("id", "y-axis");
                     
-
-                    //play with time
+                    
+                    
                     
                     console.log("parseTime(\"1947-01-01\"): " + parseTime("1947-01-01"));
                 }
