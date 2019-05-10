@@ -78,15 +78,6 @@
                         tooltip.style("display", "none");
                     }
                     
-                    
-                    /*Tool tip by title
-                    svg.selectAll("rect")
-                    .append("title")
-                    .attr("id", "tooltip")
-                    .attr("data-date", (d) => d[0])
-                    .text(d => "GDP: " + d[1]);
-                    */
-                    
                     //x-axis
                     const xAxis = d3.axisBottom(xScale);
                     
@@ -106,22 +97,11 @@
                     .attr("id", "y-axis");
                     
                     
-                    
-                    
-                    console.log("parseTime(\"1947-01-01\"): " + parseTime("1947-01-01"));
                 }
             }
             req.open("GET", url, true);
             req.send();    
         }
-        
-        //when page loads, call for data and display
-        
-        
-        //build svg
-        
-        //test xScale
-        
         
     </script>
     
